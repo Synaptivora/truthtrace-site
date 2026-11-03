@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>产品功能 · TruthTrace</title>
+  <meta name="description" content="TruthTrace 的核心功能：证据采集、AI 分析、矛盾核查、对话 Agent 与自主调查。">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></span>
+        <span>TruthTrace<div class="brand-sub">AI 现实档案调查局</div></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">首页</a>
+        <a href="features.html">产品功能</a>
+        <a href="architecture.html">技术架构</a>
+        <a href="guide.html">快速开始</a>
+        <a href="about.html">关于我们</a>
+      </div>
+      <button class="nav-toggle" aria-label="菜单">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="guide.html" class="nav-cta">开始调查</a>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="container">
+      <span class="eyebrow">产品功能</span>
+      <h1>从采集到结论，全程证据可溯</h1>
+      <p class="lede">TruthTrace 的能力围绕一条主线展开：把材料变成证据、把证据变成结构化结论，并让每一句结论都能点回原始出处。</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">核心流程</div>
+        <h2>四步走完一次核查</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <h3>采集材料</h3>
+            <p>上传聊天记录、截图、PDF 与文件；或选择已连接的钉钉、微信、飞书，按联系人或群名搜索并限定导入范围。每份材料登记为唯一编号的证据。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <h3>AI 解析与识别</h3>
+            <p>识别人物、还原事件、提取主张与承诺。文本、截图 OCR 与 PDF 解析由解析服务统一处理。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div>
+            <h3>独立核查与矛盾标注</h3>
+            <p>逐条主张做证据支持度核查，标出证据之间的差异、时间线冲突与缺口，并给出补证建议。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div>
+            <h3>生成可回溯报告</h3>
+            <p>报告优先呈现针对目标的回答、未解决问题与原文依据；技术过程折叠展示，每条引用可点回原文。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">三大能力模块</div>
+        <h2>采集 · 推理 · 展示</h2>
+        <p>由 A、B、C 三个模块分工协作，边界清晰、职责明确。</p>
+      </div>
+
+      <div class="feature-row">
+        <div class="txt">
+          <span class="tag tag-teal">模块 A · 数据接入</span>
+          <h3>多渠道证据采集</h3>
+          <p>独立的证据解析服务，统一响应 <code>POST /parse</code>，把五花八门的材料收敛成结构化的证据。</p>
+          <ul>
+            <li>文本、聊天截图 OCR、PDF 解析</li>
+            <li>钉钉 / 微信 / 飞书渠道直读与限定导入</li>
+            <li>空文件、超时、超大输入等边界处理</li>
+          </ul>
+        </div>
+        <div class="feature-visual">
+          <pre><code>POST /parse
+  → { "evidence": {
+        "id": "E1",
+        "type": "chat",
+        "content": "……"
+    } }</code></pre>
+          <p style="font-size:0.82rem; margin:10px 0 0; color:var(--text-2);">每份证据唯一编号，文本引文必须能在 content 中逐字定位。</p>
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="txt">
+          <span class="tag tag-violet">模块 B · AI 引擎</span>
+          <h3>推理与引用校验</h3>
+          <p>维护 API 与分析校验，确保模型输出「有据可查」。</p>
+          <ul>
+            <li>人物、关系、事件、矛盾、承诺、补证建议的结构化输出</li>
+            <li>引用不存在的证据或人物 → 服务端拒绝</li>
+            <li>输入错误返回 400，模型失败返回 502，不回传模型原始错误</li>
+          </ul>
+        </div>
+        <div class="feature-visual">
+          <pre><code>AnalysisResult {
+  人物  relationships
+  事件  timeline
+  矛盾  contradictions
+  承诺  commitments
+  补证  followups
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="txt">
+          <span class="tag tag-gold">模块 C · 前端展示</span>
+          <h3>工作台与交互</h3>
+          <p>消费结构化的 <code>AnalysisResult</code>，呈现关系图、时间线与可交互的结论。</p>
+          <ul>
+            <li>关系图谱、时间线、矛盾高亮</li>
+            <li>空态、上传失败、分析失败的清晰反馈</li>
+            <li>移动端自适应布局</li>
+          </ul>
+        </div>
+        <div class="feature-visual">
+          <div class="grid grid-2" style="gap:12px;">
+            <div class="mock-evidence"><span class="tag tag-violet">关系图</span><p class="ev-text" style="margin-top:8px;">人物 → 群 → 关联</p></div>
+            <div class="mock-evidence"><span class="tag tag-teal">时间线</span><p class="ev-text" style="margin-top:8px;">事件按序排列</p></div>
+            <div class="mock-evidence"><span class="tag tag-red">矛盾</span><p class="ev-text" style="margin-top:8px;">差异点高亮</p></div>
+            <div class="mock-evidence"><span class="tag tag-gold">引用</span><p class="ev-text" style="margin-top:8px;">点回原文</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">交互入口</div>
+        <h2>对话 Agent 与自主调查</h2>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="icon gold">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-8 8H5l-2 2V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></svg>
+          </div>
+          <h3>「和咪探长聊聊」</h3>
+          <p>右下角对话入口，支持普通聊天、多轮追问、证据关键词检索、分页读取原文与查看已有分析。</p>
+          <ul style="color:var(--text-1); font-size:0.94rem; padding-left:18px;">
+            <li>18+ 家模型供应商预设，支持自定义接口</li>
+            <li>兼容 Chat Completions / Messages / Responses 三种协议</li>
+            <li>引用校验通过后才保存回复</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="icon teal">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+          </div>
+          <h3>自主调查</h3>
+          <p>输入调查目标，自动安排单点核查、时间线或完整调查，八阶段 Skill 依次执行。</p>
+          <ul style="color:var(--text-1); font-size:0.94rem; padding-left:18px;">
+            <li>可暂停、继续、取消、纳入新材料修订</li>
+            <li>人物作为候选，由用户采纳、驳回或修改</li>
+            <li>本地 SQLite 持久化，支持断点续跑与报告版本</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">八阶段调查 Skill</div>
+        <h2>每一步都有章可循</h2>
+        <p>自主调查将复杂任务拆分为八个专业阶段，每个阶段的 Skill 在运行时真实加载。</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>阶段</th><th>Skill</th><th>职责</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td><code>evidence-collection</code></td><td>证据采集</td></tr>
+            <tr><td>2</td><td><code>claim-extraction</code></td><td>主张提取</td></tr>
+            <tr><td>3</td><td><code>entity-resolution</code></td><td>人物消歧</td></tr>
+            <tr><td>4</td><td><code>evidence-verification</code></td><td>证据核查</td></tr>
+            <tr><td>5</td><td><code>contradiction-analysis</code></td><td>矛盾分析</td></tr>
+            <tr><td>6</td><td><code>timeline-analysis</code></td><td>时间线分析</td></tr>
+            <tr><td>7</td><td><code>investigation-report</code></td><td>调查报告</td></tr>
+            <tr><td>8</td><td><code>investigation-master</code></td><td>调查编排</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="brand" style="margin-bottom: 14px;">
+            <span class="brand-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></span>
+            <span>TruthTrace</span>
+          </a>
+          <p class="desc">AI 现实档案调查局——上传材料、还原事件、追踪承诺，让每条结论都点回原始证据。</p>
+        </div>
+        <div>
+          <h4>产品</h4>
+          <a href="features.html">产品功能</a>
+          <a href="architecture.html">技术架构</a>
+          <a href="guide.html">快速开始</a>
+        </div>
+        <div>
+          <h4>资源</h4>
+          <a href="about.html">关于我们</a>
+          <a href="https://github.com/Synaptivora/truthtrace" target="_blank" rel="noopener">GitHub 仓库</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> TruthTrace · AI 现实档案调查局</span>
+        <span>每一句结论，都可点回原始证据。</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
